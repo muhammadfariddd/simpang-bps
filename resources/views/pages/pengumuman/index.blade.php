@@ -55,7 +55,7 @@
                                     @if(Auth::user()->peran === 'admin')
                                         <div>
                                             <form method="POST" action="{{ route('pengumuman.destroy', $p->id) }}"
-                                                onsubmit="return confirm('Hapus pengumuman ini?')">
+                                                onsubmit="confirmDelete(event, 'Hapus pengumuman ini?')">
                                                 @csrf @method('DELETE')
                                                 <button class="btn btn-sm btn-outline-danger">
                                                     <i class="ti ti-trash"></i>

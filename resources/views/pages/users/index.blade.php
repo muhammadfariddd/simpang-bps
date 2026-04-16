@@ -75,7 +75,7 @@
                                             <a href="{{ route('users.edit', $mhs->id) }}" class="btn btn-sm btn-warning" title="Edit">
                                                 <i class="ti ti-edit"></i>
                                             </a>
-                                            <form method="POST" action="{{ route('users.destroy', $mhs->id) }}" style="display:inline;" onsubmit="return confirm('Nonaktifkan mahasiswa ini?')">
+                                            <form method="POST" action="{{ route('users.destroy', $mhs->id) }}" style="display:inline;" onsubmit="confirmDelete(event, 'Nonaktifkan mahasiswa ini?')">
                                                 @csrf @method('DELETE')
                                                 <button class="btn btn-sm btn-danger" title="Nonaktifkan">
                                                     <i class="ti ti-user-off"></i>

@@ -7,7 +7,9 @@
         <div class="page-block">
             <div class="row align-items-center">
                 <div class="col">
-                    <div class="page-header-title"><h5>Rekap Kehadiran</h5></div>
+                    <div class="page-header-title">
+                        <h5>Rekap Kehadiran</h5>
+                    </div>
                 </div>
                 <div class="col-auto">
                     <ul class="breadcrumb">
@@ -22,37 +24,43 @@
     {{-- Filter --}}
     <div class="card" style="margin-bottom:16px;">
         <div class="card-body">
-            <form method="GET" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
-                <div>
-                    <label class="form-label">Bulan</label>
-                    <select name="bulan" class="form-control">
-                        @foreach(range(1,12) as $m)
-                            <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
-                                {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label class="form-label">Tahun</label>
-                    <select name="tahun" class="form-control">
-                        @foreach(range(now()->year - 1, now()->year + 1) as $y)
-                            <option value="{{ $y }}" {{ ($tahun ?? now()->year) == $y ? 'selected' : '' }}>{{ $y }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i> Filter</button>
-                </div>
-                @if(Auth::user()->peran === 'admin')
-                    <div style="margin-left:auto;">
-                        <a href="{{ route('laporan.export.kehadiran', ['bulan' => $bulan, 'tahun' => $tahun]) }}"
-                            class="btn btn-success">
-                            <i class="ti ti-download"></i> Export CSV
-                        </a>
+            <div style="overflow-x:auto;">
+                <form method="GET"
+                    style="display:flex;gap:16px;align-items:flex-end;flex-wrap:nowrap;min-width:max-content;padding-bottom:8px;">
+                    <div>
+                        <label class="form-label"
+                            style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Bulan</label>
+                        <select name="bulan" class="form-control" style="min-width:120px;">
+                            @foreach (range(1, 12) as $m)
+                                <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                @endif
-            </form>
+                    <div>
+                        <label class="form-label"
+                            style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Tahun</label>
+                        <select name="tahun" class="form-control" style="min-width:100px;">
+                            @foreach (range(now()->year - 1, now()->year + 1) as $y)
+                                <option value="{{ $y }}" {{ ($tahun ?? now()->year) == $y ? 'selected' : '' }}>
+                                    {{ $y }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i> Filter</button>
+                    </div>
+                    @if (Auth::user()->peran === 'admin')
+                        <div style="margin-left:auto;">
+                            <a href="{{ route('laporan.export.kehadiran', ['bulan' => $bulan, 'tahun' => $tahun]) }}"
+                                class="btn btn-success">
+                                <i class="ti ti-download"></i> Export CSV
+                            </a>
+                        </div>
+                    @endif
+                </form>
+            </div>
         </div>
     </div>
 
@@ -65,7 +73,7 @@
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
-                                    @if(Auth::user()->peran === 'admin')
+                                    @if (Auth::user()->peran === 'admin')
                                         <th>Mahasiswa</th>
                                         <th>NIM</th>
                                     @endif
@@ -78,14 +86,14 @@
                                 @forelse($presensis as $p)
                                     <tr>
                                         <td>{{ $p->tanggal->format('d M Y') }}</td>
-                                        @if(Auth::user()->peran === 'admin')
+                                        @if (Auth::user()->peran === 'admin')
                                             <td>{{ $p->user->nama_lengkap }}</td>
                                             <td>{{ $p->user->mahasiswa?->nim ?? '—' }}</td>
                                         @endif
                                         <td>{{ $p->check_in ?? '—' }}</td>
                                         <td>{{ $p->check_out ?? '—' }}</td>
                                         <td>
-                                            @if($p->status === 'hadir')
+                                            @if ($p->status === 'hadir')
                                                 <span class="badge bg-success">Hadir</span>
                                             @elseif($p->status === 'izin')
                                                 <span class="badge bg-warning">Izin</span>
@@ -95,7 +103,10 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="6" style="text-align:center;color:#8996a4;padding:24px;">Tidak ada data kehadiran.</td></tr>
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;color:#8996a4;padding:24px;">Tidak ada
+                                            data kehadiran.</td>
+                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>

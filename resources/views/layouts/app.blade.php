@@ -24,6 +24,59 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
 
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Global konfirmasi hapus
+        function confirmDelete(event, text) {
+            event.preventDefault();
+            const form = event.target.closest('form');
+            Swal.fire({
+                title: 'Konfirmasi Penghapusan',
+                text: text || 'Apakah Anda yakin ingin menghapus data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#8c98a4',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'rounded-4'
+                }
+            }).then((result) => {
+                if (result.isConfirmed && form) {
+                    if (typeof NProgress !== 'undefined') NProgress.start();
+                    form.submit();
+                }
+            });
+        }
+
+        // Global konfirmasi logout
+        function confirmLogout(event, formId) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Logout',
+                text: 'Apakah Anda yakin ingin keluar dari sistem?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4680ff',
+                cancelButtonColor: '#8c98a4',
+                confirmButtonText: 'Ya, Logout',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'rounded-4'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (typeof NProgress !== 'undefined') NProgress.start();
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
+
     {{-- NProgress — Top Loading Bar --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
     <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
@@ -130,7 +183,7 @@
                                     <hr style="margin: 10px 0; border-color: #e7eaee;">
                                     <div class="profile-notification-scroll">
                                         <a href="{{ route('logout') }}" class="dropdown-item"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form-header').submit();">
+                                            onclick="confirmLogout(event, 'logout-form-header')">
                                             <i class="ti ti-logout"></i>
                                             <span>Logout</span>
                                         </a>
@@ -154,22 +207,7 @@
     <div class="pc-container">
         <div class="pc-content">
 
-            {{-- Flash Messages --}}
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible" role="alert" id="flash-alert">
-                    <i class="ti ti-circle-check"></i>
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" onclick="this.parentElement.remove()">×</button>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible" role="alert" id="flash-alert-err">
-                    <i class="ti ti-circle-x"></i>
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" onclick="this.parentElement.remove()">×</button>
-                </div>
-            @endif
+            {{-- Flash Messages kini ditangani sepenuhnya oleh Toastify di bagian bawah halaman --}}
 
             @yield('content')
         </div>
@@ -203,6 +241,7 @@
 
         // Mulai saat klik link (navigasi antar halaman)
         document.addEventListener('click', function(e) {
+            if (e.defaultPrevented) return;
             const link = e.target.closest('a[href]');
             if (link && link.href &&
                 !link.href.startsWith('#') &&
@@ -215,7 +254,8 @@
         });
 
         // Mulai saat submit form
-        document.addEventListener('submit', function() {
+        document.addEventListener('submit', function(e) {
+            if (e.defaultPrevented) return;
             NProgress.start();
         });
 
@@ -289,15 +329,47 @@
                 }
             });
         });
-
-        // ── Auto dismiss flash alerts ───────────────────────
-        setTimeout(function() {
-            ['flash-alert', 'flash-alert-err'].forEach(function(id) {
-                const el = document.getElementById(id);
-                if (el) el.remove();
-            });
-        }, 5000);
     </script>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Toastify({
+                    text: "{!! session('success') !!}",
+                    duration: 4000,
+                    gravity: "top",
+                    position: "right",
+                    close: true,
+                    style: {
+                        background: "#4caf50",
+                        color: "#ffffff",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+                    }
+                }).showToast();
+            });
+        </script>
+    @endif
+
+    @if (session('error') && is_string(session('error')))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Toastify({
+                    text: "{!! session('error') !!}",
+                    duration: 4000,
+                    gravity: "top",
+                    position: "right",
+                    close: true,
+                    style: {
+                        background: "#dc2626",
+                        color: "#ffffff",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+                    }
+                }).showToast();
+            });
+        </script>
+    @endif
 
     @stack('scripts')
 </body>

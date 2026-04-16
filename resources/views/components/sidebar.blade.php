@@ -118,7 +118,7 @@
 
                     <li class="pc-item {{ request()->routeIs('laporan.logbook.saya') ? 'active' : '' }}">
                         <a href="{{ route('laporan.logbook.saya') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-file-description"></i></span>
+                            <span class="pc-micon"><i class="ti ti-file-text"></i></span>
                             <span class="pc-mtext">Rekap Logbook Saya</span>
                         </a>
                     </li>
@@ -141,7 +141,7 @@
 
                 <li class="pc-item">
                     <a href="{{ route('logout') }}" class="pc-link"
-                        onclick="event.preventDefault(); document.getElementById('logout-form-sidebar').submit();">
+                        onclick="confirmLogout(event, 'logout-form-sidebar')">
                         <span class="pc-micon"><i class="ti ti-logout"></i></span>
                         <span class="pc-mtext">Logout</span>
                     </a>

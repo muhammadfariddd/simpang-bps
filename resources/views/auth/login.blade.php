@@ -17,6 +17,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
 
+    {{-- NProgress --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+    <style>
+        #nprogress .bar { background: #4680ff !important; height: 4px; }
+        #nprogress .peg { display: none !important; }
+        #nprogress .spinner-icon { border-top-color: #4680ff !important; border-left-color: #4680ff !important; }
+    </style>
+
     @vite(['resources/css/app.css'])
 
     <style>
@@ -95,12 +104,6 @@
 
 <body>
 
-    {{-- Pre-loader --}}
-    <div class="loader-bg" id="page-loader">
-        <div class="loader-track">
-            <div class="loader-fill"></div>
-        </div>
-    </div>
 
     <div class="auth-main">
         <div class="auth-card">
@@ -174,13 +177,10 @@
     @vite(['resources/js/app.js'])
 
     <script>
-        // Pre-loader dismiss
+        // NProgress setup
+        NProgress.start();
         window.addEventListener('load', function() {
-            const loader = document.getElementById('page-loader');
-            if (loader) {
-                loader.classList.add('fade-out');
-                setTimeout(() => loader.remove(), 500);
-            }
+            NProgress.done();
         });
 
         // Password toggle

@@ -23,40 +23,45 @@
     </div>
 
     {{-- Profil Ringkasan --}}
-    @if($mahasiswa)
-    <div class="card" style="margin-bottom:16px; background:linear-gradient(135deg,#4680ff 0%,#6f42c1 100%); color:#fff;">
-        <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h4 style="color:#fff;margin:0 0 4px;">
-                        Selamat datang, {{ Auth::user()->nama_lengkap }}!
-                    </h4>
-                    <p style="margin:0;opacity:0.85;font-size:14px;">
-                        <i class="ti ti-school"></i> {{ $mahasiswa->universitas }} — {{ $mahasiswa->jurusan }}
-                        &nbsp;|&nbsp;
-                        <i class="ti ti-building"></i> Divisi: {{ $mahasiswa->divisi ?? '-' }}
-                    </p>
-                    <p style="margin:4px 0 0;opacity:0.85;font-size:13px;">
-                        <i class="ti ti-calendar"></i>
-                        Periode: {{ $mahasiswa->periode_mulai?->format('d M Y') }} s/d {{ $mahasiswa->periode_selesai?->format('d M Y') }}
-                        &nbsp;|&nbsp;
-                        <span class="badge" style="background:rgba(255,255,255,0.25);">{{ ucfirst($mahasiswa->status) }}</span>
-                    </p>
-                </div>
-                <div class="col-auto">
-                    @if($mahasiswa->status === 'selesai')
-                        <span class="badge" style="font-size:14px;background:rgba(255,255,255,0.25);padding:10px 16px;">
-                            <i class="ti ti-award"></i> Magang Selesai
-                        </span>
-                    @else
-                        <span class="badge" style="font-size:14px;background:rgba(255,255,255,0.25);padding:10px 16px;">
-                            <i class="ti ti-clock"></i> Sedang Berjalan
-                        </span>
-                    @endif
+    @if ($mahasiswa)
+        <div class="card"
+            style="margin-bottom:16px; background:linear-gradient(135deg,#4680ff 0%,#6f42c1 100%); color:#fff;">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h4 style="color:#fff;margin:0 0 4px;">
+                            Selamat datang, {{ Auth::user()->nama_lengkap }}!
+                        </h4>
+                        <p style="margin:0;opacity:0.85;font-size:14px;">
+                            <i class="ti ti-school"></i> {{ $mahasiswa->universitas }} — {{ $mahasiswa->jurusan }}
+                            &nbsp;|&nbsp;
+                            <i class="ti ti-building"></i> Divisi: {{ $mahasiswa->divisi ?? '-' }}
+                        </p>
+                        <p style="margin:4px 0 0;opacity:0.85;font-size:13px;">
+                            <i class="ti ti-calendar"></i>
+                            Periode: {{ $mahasiswa->periode_mulai?->format('d M Y') }} s/d
+                            {{ $mahasiswa->periode_selesai?->format('d M Y') }}
+                            &nbsp;|&nbsp;
+                            <span class="badge"
+                                style="background:rgba(255,255,255,0.25);">{{ ucfirst($mahasiswa->status) }}</span>
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        @if ($mahasiswa->status === 'selesai')
+                            <span class="badge"
+                                style="font-size:14px;background:rgba(255,255,255,0.25);padding:10px 16px;">
+                                <i class="ti ti-award"></i> Magang Selesai
+                            </span>
+                        @else
+                            <span class="badge"
+                                style="font-size:14px;background:rgba(255,255,255,0.25);padding:10px 16px;">
+                                <i class="ti ti-clock"></i> Sedang Berjalan
+                            </span>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
     {{-- [ Stat Cards ] --}}
@@ -71,11 +76,12 @@
                     <div class="row">
                         <div class="col">
                             <div class="avtar avtar-lg">
-                                <i class="text-white ti ti-clock-check"></i>
+                                <i class="text-white ti ti-user-check"></i>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('presensi.index') }}" class="avtar avtar-s text-white" style="background:rgba(0,0,0,0.2);text-decoration:none;">
+                            <a href="{{ route('presensi.index') }}" class="avtar avtar-s text-white"
+                                style="background:rgba(0,0,0,0.2);text-decoration:none;">
                                 <i class="ti ti-dots"></i>
                             </a>
                         </div>
@@ -99,7 +105,8 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('logbook.index') }}" class="avtar avtar-s text-white" style="background:rgba(0,0,0,0.2);text-decoration:none;">
+                            <a href="{{ route('logbook.index') }}" class="avtar avtar-s text-white"
+                                style="background:rgba(0,0,0,0.2);text-decoration:none;">
                                 <i class="ti ti-dots"></i>
                             </a>
                         </div>
@@ -123,7 +130,8 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('logbook.index') }}" class="avtar avtar-s text-white" style="background:rgba(0,0,0,0.2);text-decoration:none;">
+                            <a href="{{ route('logbook.index') }}" class="avtar avtar-s text-white"
+                                style="background:rgba(0,0,0,0.2);text-decoration:none;">
                                 <i class="ti ti-dots"></i>
                             </a>
                         </div>
@@ -147,7 +155,8 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('proyek.index') }}" class="avtar avtar-s text-white" style="background:rgba(0,0,0,0.2);text-decoration:none;">
+                            <a href="{{ route('proyek.index') }}" class="avtar avtar-s text-white"
+                                style="background:rgba(0,0,0,0.2);text-decoration:none;">
                                 <i class="ti ti-dots"></i>
                             </a>
                         </div>
@@ -169,7 +178,7 @@
                     <h5 style="margin:0;"><i class="ti ti-map-pin"></i> Presensi Hari Ini</h5>
                 </div>
                 <div class="card-body" style="text-align:center;">
-                    @if(!$presensiHariIni)
+                    @if (!$presensiHariIni)
                         <div style="padding:12px 0;">
                             <i class="ti ti-clock" style="font-size:2.5rem;color:#8996a4;"></i>
                             <p style="color:#8996a4;margin:8px 0 16px;">Belum Check-In hari ini</p>
@@ -225,11 +234,14 @@
                     @forelse($projeks as $proyek)
                         <div style="margin-bottom:14px;">
                             <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                                <span style="font-size:13px;font-weight:500;">{{ Str::limit($proyek->nama_proyek, 30) }}</span>
+                                <span
+                                    style="font-size:13px;font-weight:500;">{{ Str::limit($proyek->nama_proyek, 30) }}</span>
                                 <span style="font-size:12px;color:#8996a4;">{{ $proyek->progress_persen }}%</span>
                             </div>
                             <div style="background:#e7eaee;border-radius:4px;height:8px;">
-                                <div style="width:{{ $proyek->progress_persen }}%;background:#4680ff;height:8px;border-radius:4px;"></div>
+                                <div
+                                    style="width:{{ $proyek->progress_persen }}%;background:#4680ff;height:8px;border-radius:4px;">
+                                </div>
                             </div>
                         </div>
                     @empty
@@ -255,7 +267,7 @@
                         <div style="padding:10px 16px;border-bottom:1px solid #e7eaee;font-size:13px;">
                             <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
                                 <span style="font-weight:500;">{{ $lb->tanggal->format('d M') }}</span>
-                                @if($lb->status === 'disetujui')
+                                @if ($lb->status === 'disetujui')
                                     <span class="badge bg-success" style="font-size:10px;">Disetujui</span>
                                 @elseif($lb->status === 'revisi')
                                     <span class="badge bg-danger" style="font-size:10px;">Revisi</span>
@@ -277,63 +289,65 @@
     </div>
 
     {{-- Pengumuman --}}
-    @if($pengumuman->isNotEmpty())
-    <div class="row">
-        <div class="col-12">
-            <div class="card" style="margin-bottom:16px;">
-                <div class="card-header">
-                    <h5 style="margin:0;"><i class="ti ti-speakerphone"></i> Pengumuman</h5>
-                </div>
-                <div class="card-body">
-                    @foreach($pengumuman as $p)
-                        <div class="alert {{ $p->is_pinned ? 'alert-primary' : 'alert-info' }}" style="margin-bottom:8px;">
-                            @if($p->is_pinned)
-                                <i class="ti ti-pin"></i>
-                            @endif
-                            <strong>{{ $p->judul }}</strong>
-                            <p style="margin:4px 0 0;font-size:13px;">{{ $p->isi }}</p>
-                            <small style="color:#8996a4;">{{ $p->admin->nama_lengkap }} — {{ $p->created_at->diffForHumans() }}</small>
-                        </div>
-                    @endforeach
+    @if ($pengumuman->isNotEmpty())
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-bottom:16px;">
+                    <div class="card-header">
+                        <h5 style="margin:0;"><i class="ti ti-speakerphone"></i> Pengumuman</h5>
+                    </div>
+                    <div class="card-body">
+                        @foreach ($pengumuman as $p)
+                            <div class="alert {{ $p->is_pinned ? 'alert-primary' : 'alert-info' }}"
+                                style="margin-bottom:8px;">
+                                @if ($p->is_pinned)
+                                    <i class="ti ti-pin"></i>
+                                @endif
+                                <strong>{{ $p->judul }}</strong>
+                                <p style="margin:4px 0 0;font-size:13px;">{{ $p->isi }}</p>
+                                <small style="color:#8996a4;">{{ $p->admin->nama_lengkap }} —
+                                    {{ $p->created_at->diffForHumans() }}</small>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
 @endsection
 
 @push('scripts')
-<script>
-// Ambil koordinat geolokasi sebelum submit presensi
-function getLocation(form, latField, lngField) {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            document.getElementById(latField).value = pos.coords.latitude;
-            document.getElementById(lngField).value = pos.coords.longitude;
-            form.submit();
-        }, function () {
-            form.submit(); // submit tetap meski lokasi ditolak
-        });
-    } else {
-        form.submit();
-    }
-}
+    <script>
+        // Ambil koordinat geolokasi sebelum submit presensi
+        function getLocation(form, latField, lngField) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    document.getElementById(latField).value = pos.coords.latitude;
+                    document.getElementById(lngField).value = pos.coords.longitude;
+                    form.submit();
+                }, function() {
+                    form.submit(); // submit tetap meski lokasi ditolak
+                });
+            } else {
+                form.submit();
+            }
+        }
 
-const checkInForm  = document.getElementById('formCheckIn');
-const checkOutForm = document.getElementById('formCheckOut');
+        const checkInForm = document.getElementById('formCheckIn');
+        const checkOutForm = document.getElementById('formCheckOut');
 
-if (checkInForm) {
-    checkInForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        getLocation(this, 'lat_in', 'lng_in');
-    });
-}
-if (checkOutForm) {
-    checkOutForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        getLocation(this, 'lat_out', 'lng_out');
-    });
-}
-</script>
+        if (checkInForm) {
+            checkInForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                getLocation(this, 'lat_in', 'lng_in');
+            });
+        }
+        if (checkOutForm) {
+            checkOutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                getLocation(this, 'lat_out', 'lng_out');
+            });
+        }
+    </script>
 @endpush

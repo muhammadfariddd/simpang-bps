@@ -85,7 +85,7 @@
                                         <a href="{{ route('proyek.edit', $proyek->id) }}" class="btn btn-sm btn-warning">
                                             <i class="ti ti-edit"></i> Update Progress
                                         </a>
-                                        <form method="POST" action="{{ route('proyek.destroy', $proyek->id) }}" onsubmit="return confirm('Hapus proyek ini?')">
+                                        <form method="POST" action="{{ route('proyek.destroy', $proyek->id) }}" onsubmit="confirmDelete(event, 'Hapus proyek ini?')">
                                             @csrf @method('DELETE')
                                             <button class="btn btn-sm btn-danger"><i class="ti ti-trash"></i></button>
                                         </form>

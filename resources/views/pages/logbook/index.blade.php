@@ -67,7 +67,7 @@
                                             <td><strong>{{ $lb->user->nama_lengkap }}</strong></td>
                                         @endif
                                         <td><span class="badge bg-info">{{ $lb->kategori }}</span></td>
-                                        <td style="max-width:260px;">{{ Str::limit($lb->deskripsi_kegiatan, 80) }}</td>
+                                        <td>{{ Str::limit($lb->deskripsi_kegiatan, 80) }}</td>
                                         <td>
                                             @if($lb->file_bukti)
                                                 <a href="{{ asset('storage/' . $lb->file_bukti) }}" target="_blank" class="btn btn-xs btn-outline-primary" style="font-size:11px;padding:2px 8px;">

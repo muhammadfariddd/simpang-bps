@@ -23,35 +23,39 @@
     {{-- Filter --}}
     <div class="card" style="margin-bottom:16px;">
         <div class="card-body">
-            <form method="GET" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
-                <div>
-                    <label class="form-label">Bulan</label>
-                    <select name="bulan" class="form-control">
-                        @foreach(range(1,12) as $m)
-                            <option value="{{ $m }}" {{ (request('bulan', now()->month) == $m) ? 'selected' : '' }}>
-                                {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
-                            </option>
-                        @endforeach
-                    </select>
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;">
+                <div style="overflow-x:auto;">
+                    <form method="GET" style="display:flex;gap:16px;align-items:flex-end;flex-wrap:nowrap;min-width:max-content;padding-bottom:8px;">
+                        <div>
+                            <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Bulan</label>
+                            <select name="bulan" class="form-control" style="min-width:120px;">
+                                @foreach(range(1,12) as $m)
+                                    <option value="{{ $m }}" {{ (request('bulan', now()->month) == $m) ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Tahun</label>
+                            <select name="tahun" class="form-control" style="min-width:100px;">
+                                @foreach(range(now()->year - 1, now()->year + 1) as $y)
+                                    <option value="{{ $y }}" {{ (request('tahun', now()->year) == $y) ? 'selected' : '' }}>{{ $y }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i> Filter</button>
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <label class="form-label">Tahun</label>
-                    <select name="tahun" class="form-control">
-                        @foreach(range(now()->year - 1, now()->year + 1) as $y)
-                            <option value="{{ $y }}" {{ (request('tahun', now()->year) == $y) ? 'selected' : '' }}>{{ $y }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i> Filter</button>
-                </div>
-                <div style="margin-left:auto;">
+                <div style="margin-bottom:8px;">
                     <a href="{{ route('laporan.export.kehadiran', ['bulan' => request('bulan', now()->month), 'tahun' => request('tahun', now()->year)]) }}"
                         class="btn btn-success">
                         <i class="ti ti-download"></i> Export CSV
                     </a>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
