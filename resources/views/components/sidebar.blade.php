@@ -84,54 +84,19 @@
                         </a>
                     </li>
 
-                    <li class="pc-item pc-caption">
-                        <label>Laporan</label>
-                    </li>
-
-                    <li class="pc-item {{ request()->routeIs('laporan.kehadiran') ? 'active' : '' }}">
-                        <a href="{{ route('laporan.kehadiran') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-calendar-stats"></i></span>
-                            <span class="pc-mtext">Rekap Kehadiran</span>
-                        </a>
-                    </li>
-
-                    <li class="pc-item {{ request()->routeIs('laporan.logbook') ? 'active' : '' }}">
-                        <a href="{{ route('laporan.logbook') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-report"></i></span>
-                            <span class="pc-mtext">Rekap Logbook</span>
-                        </a>
-                    </li>
                 @endif
 
                 {{-- ── Mahasiswa: E-Portfolio ──────────────────────── --}}
-                @if ($peran === 'mahasiswa')
+                @if ($peran === 'mahasiswa' && Auth::user()->mahasiswa && Auth::user()->mahasiswa->status === 'selesai')
                     <li class="pc-item pc-caption">
                         <label>E-Portfolio</label>
                     </li>
-
-                    <li class="pc-item {{ request()->routeIs('laporan.kehadiran.saya') ? 'active' : '' }}">
-                        <a href="{{ route('laporan.kehadiran.saya') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-calendar-stats"></i></span>
-                            <span class="pc-mtext">Rekap Kehadiran Saya</span>
+                    <li class="pc-item">
+                        <a href="#" class="pc-link" style="color: #28a745;">
+                            <span class="pc-micon"><i class="ti ti-certificate"></i></span>
+                            <span class="pc-mtext">Unduh Sertifikat</span>
                         </a>
                     </li>
-
-                    <li class="pc-item {{ request()->routeIs('laporan.logbook.saya') ? 'active' : '' }}">
-                        <a href="{{ route('laporan.logbook.saya') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-file-text"></i></span>
-                            <span class="pc-mtext">Rekap Logbook Saya</span>
-                        </a>
-                    </li>
-
-                    {{-- Sertifikat (hanya jika status selesai) --}}
-                    @if (Auth::user()->mahasiswa && Auth::user()->mahasiswa->status === 'selesai')
-                        <li class="pc-item">
-                            <a href="#" class="pc-link" style="color: #28a745;">
-                                <span class="pc-micon"><i class="ti ti-certificate"></i></span>
-                                <span class="pc-mtext">Unduh Sertifikat</span>
-                            </a>
-                        </li>
-                    @endif
                 @endif
 
                 {{-- ── Account ─────────────────────────────────────── --}}

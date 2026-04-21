@@ -22,26 +22,60 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-                    <h5 style="margin:0;"><i class="ti ti-notebook"></i> Daftar Logbook</h5>
-                    <div style="display:flex;gap:8px;align-items:center;">
-                        {{-- Filter Status (Admin) --}}
-                        @if(Auth::user()->peran === 'admin')
-                            <form method="GET" style="display:flex;gap:6px;">
-                                <select name="status" class="form-control" style="width:auto;" onchange="this.form.submit()">
+                <div class="card-header" style="display:flex;flex-direction:column;gap:16px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                        <h5 style="margin:0;"><i class="ti ti-notebook"></i> Daftar Logbook</h5>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            @if(Auth::user()->peran === 'mahasiswa')
+                                <a href="{{ route('logbook.create') }}" class="btn btn-primary">
+                                    <i class="ti ti-plus"></i> Isi Logbook
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                    @if(Auth::user()->peran === 'admin')
+                    <div style="overflow-x:auto;">
+                        <form method="GET" action="{{ route('logbook.index') }}"
+                            style="display:flex;gap:16px;align-items:flex-end;flex-wrap:nowrap;min-width:max-content;padding-bottom:8px;">
+                            <div>
+                                <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Status</label>
+                                <select name="status" class="form-control" style="min-width:140px;">
                                     <option value="">Semua Status</option>
                                     <option value="pending"   {{ request('status') === 'pending'   ? 'selected' : '' }}>Pending</option>
                                     <option value="disetujui" {{ request('status') === 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                     <option value="revisi"    {{ request('status') === 'revisi'    ? 'selected' : '' }}>Revisi</option>
                                 </select>
-                            </form>
-                        @endif
-                        @if(Auth::user()->peran === 'mahasiswa')
-                            <a href="{{ route('logbook.create') }}" class="btn btn-primary">
-                                <i class="ti ti-plus"></i> Isi Logbook
-                            </a>
-                        @endif
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Bulan</label>
+                                <select name="bulan" class="form-control" style="min-width:120px;">
+                                    @foreach (range(1, 12) as $m)
+                                        <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Tahun</label>
+                                <select name="tahun" class="form-control" style="min-width:100px;">
+                                    @foreach (range(now()->year - 2, now()->year + 1) as $y)
+                                        <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i> Filter</button>
+                            </div>
+                            <div style="margin-left:auto;">
+                                <a href="{{ route('laporan.export.logbook', ['bulan' => $bulan, 'tahun' => $tahun]) }}"
+                                    class="btn btn-success">
+                                    <i class="ti ti-download"></i> Export CSV
+                                </a>
+                            </div>
+                        </form>
                     </div>
+                    @endif
                 </div>
                 <div class="card-body" style="padding:0;">
                     <div class="table-responsive">

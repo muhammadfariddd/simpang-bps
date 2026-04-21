@@ -79,12 +79,41 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="card-header" style="display:flex;flex-direction:column;gap:16px;">
                     <h5 style="margin:0;">Riwayat Presensi</h5>
                     @if(Auth::user()->peran === 'admin')
-                        <a href="{{ route('laporan.kehadiran') }}" class="btn btn-sm btn-outline-primary">
-                            <i class="ti ti-calendar-stats"></i> Rekap Bulanan
-                        </a>
+                    <div style="overflow-x:auto;">
+                        <form method="GET" action="{{ route('presensi.index') }}"
+                            style="display:flex;gap:16px;align-items:flex-end;flex-wrap:nowrap;min-width:max-content;padding-bottom:8px;">
+                            <div>
+                                <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Bulan</label>
+                                <select name="bulan" class="form-control" style="min-width:120px;">
+                                    @foreach (range(1, 12) as $m)
+                                        <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label" style="font-size:12px;color:#8c98a4;font-weight:600;text-transform:uppercase;">Tahun</label>
+                                <select name="tahun" class="form-control" style="min-width:100px;">
+                                    @foreach (range(now()->year - 2, now()->year + 1) as $y)
+                                        <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary"><i class="ti ti-filter"></i> Filter</button>
+                            </div>
+                            <div style="margin-left:auto;">
+                                <a href="{{ route('laporan.export.kehadiran', ['bulan' => $bulan, 'tahun' => $tahun]) }}"
+                                    class="btn btn-success">
+                                    <i class="ti ti-download"></i> Export CSV
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                     @endif
                 </div>
                 <div class="card-body" style="padding:0;">
@@ -120,7 +149,9 @@
                                         </td>
                                         <td>
                                             @if($p->status === 'hadir')
-                                                <span class="badge bg-success">Hadir</span>
+                                                <span class="badge bg-success">Hadir Pagi</span>
+                                            @elseif($p->status === 'telat')
+                                                <span class="badge bg-secondary">Telat</span>
                                             @elseif($p->status === 'izin')
                                                 <span class="badge bg-warning">Izin</span>
                                             @else

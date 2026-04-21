@@ -24,10 +24,17 @@ class LogbookController extends Controller
             $query->where('status', $request->status);
         }
 
+        // Filter bulan & tahun
+        $bulan = $request->bulan ?? now()->month;
+        $tahun = $request->tahun ?? now()->year;
+        if ($request->filled('bulan') && $request->filled('tahun')) {
+            $query->whereMonth('tanggal', $bulan)->whereYear('tanggal', $tahun);
+        }
+
         $logbooks  = $query->paginate(15)->withQueryString();
         $kategoriList = Logbook::kategoriList();
 
-        return view('pages.logbook.index', compact('logbooks', 'kategoriList'));
+        return view('pages.logbook.index', compact('logbooks', 'kategoriList', 'bulan', 'tahun'));
     }
 
     public function create()
