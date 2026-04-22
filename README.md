@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://www.bps.go.id/_next/image?url=%2Fassets%2Flogo-bps.png&w=3840&q=75" alt="Logo BPS" width=""/>
+  <img src="public/images/logo/logo.png" alt="Logo BPS" width="75"/>
 </p>
 
 <h1 align="center">SIMPANG</h1>
