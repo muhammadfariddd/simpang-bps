@@ -79,6 +79,14 @@ DB_PASSWORD=
 
 _(Jangan lupa sesuaikan juga `APP_URL` dengan local domain Anda, misalnya `http://simpang-bps.test` atau sesuaikan struktur folder Anda jika menggunakan Laragon)._
 
+**Konfigurasi Keamanan (Geofencing IP):**  
+Wajib bagi Admin/IT untuk menambahkan konfigurasi Wi-Fi di file `.env` sistem agar fitur Absensi berjalan di jaringan yang benar:
+
+```env
+# Sesuaikan IP dengan IP Publik / Subnet Jaringan Kantor
+ALLOWED_WIFI_IPS=10.133.20.*,192.168.1.1
+```
+
 **5. Eksekusi Environment tambahan:**
 Berikan generate kunci Laravel dan tautkan link Storage (wajib untuk agar upload gambar bisa dibaca web):
 
@@ -106,19 +114,16 @@ Jika Anda memakai perintah `php artisan serve`, buka `http://127.0.0.1:8000`. Ji
 
 ---
 
-## 🔐 Data Login Percobaan (_Dummy Seeders_)
+## 🔐 Akses Login Default (Master Admin)
 
-Jika Anda berhasil menjalankan skrip seeding (`migrate --seed`), Anda bisa mencoba masuk menggunakan akun berikut:
+Jika Anda berhasil menjalankan skrip seeding (`migrate --seed`), database Anda akan berada dalam kondisi bersih dan hanya menyisakan secara esklusif satu (1) akun Admin utama. Anda bisa mencoba masuk menggunakan akun berikut:
 
-**Admin BPS:**
+**Admin Utama BPS:**
 
-- Username: `admin`
-- Password: `admin123`
+- Username: `bps_jepara`
+- Password: `simpang_3320`
 
-**Mahasiswa Magang:**
-
-- Username: `budi.santoso` / Password: `password`
-- Username: `sari.dewi` / Password: `password`
+_(Sangat direkomendasikan untuk segera mengubah password admin dari dalam sistem setelah login pertama kali di server produksi!)_
 
 ---
 

@@ -175,13 +175,13 @@ body {
 /* Nav item */
 .pc-item {
     position: relative;
-    margin: 0 16px;
+    margin: 2px 16px;
 }
 .pc-link {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 20px;
+    padding: 13px 20px;
     color: var(--color-sidebar-text);
     text-decoration: none;
     border-radius: 0;

@@ -25,24 +25,29 @@ class LoginController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ], [
-            'username.required' => 'Username wajib diisi.',
+            'username.required' => 'Identitas (Username/NIM) wajib diisi.',
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        // Coba login dengan username
-        $credentials = [
-            'username' => $request->username,
-            'password' => $request->password,
-        ];
+        $loginInput = $request->username;
+        $password   = $request->password;
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        // Cari user berdasarkan username ATAU berdasarkan nim di tabel identitas mahasiswa
+        $user = \App\Models\User::where('username', $loginInput)
+            ->orWhereHas('mahasiswa', function ($query) use ($loginInput) {
+                $query->where('nim', $loginInput);
+            })
+            ->first();
+
+        // Jika user eksis, delegasikan verifikasi password ke fitur bawaan Auth::attempt
+        if ($user && Auth::attempt(['username' => $user->username, 'password' => $password], $request->boolean('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil, selamat datang ' . Auth::user()->nama_lengkap);
         }
 
         return back()
             ->withInput($request->only('username'))
-            ->withErrors(['username' => 'Username atau password salah.']);
+            ->withErrors(['username' => 'Identitas (Username / NIM) atau password Anda salah.']);
     }
 
     /**
